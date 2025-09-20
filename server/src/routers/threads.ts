@@ -27,32 +27,51 @@ export const threadsRouter = router({
     return r.rows.map((row: any) => ({ id: row.id, participants: (row.participants||"").split(",").filter(Boolean), lastAt: row.last_at }));
   }),
 
-  start: publicProcedure.input(z.object({ withUsername: z.string().min(3) }))
+  start: publicProcedure.input(z.object({ usernames: z.string().min(1) }))
     .mutation(async ({ input, ctx }) => {
       const me = requireUserId(ctx);
-      const otherQ = await db.query("SELECT id FROM users WHERE username=$1", [input.withUsername]);
-      if (!otherQ.rowCount) throw new Error("User not found");
-      const otherId = otherQ.rows[0].id;
-
-      // Reuse existing DM if any (two-participant thread)
+      
+      // Parse comma-separated usernames and get user IDs
+      const usernames = input.usernames.split(',').map(u => u.trim()).filter(Boolean);
+      if (usernames.length === 0) throw new Error("At least one username required");
+      
+      const userIds = [me]; // Always include current user
+      
+      // Get user IDs for provided usernames
+      for (const username of usernames) {
+        if (username.length < 3) throw new Error(`Username "${username}" is too short`);
+        const userQ = await db.query("SELECT id FROM users WHERE username=$1", [username]);
+        if (!userQ.rowCount) throw new Error(`User "${username}" not found`);
+        userIds.push(userQ.rows[0].id);
+      }
+      
+      // Remove duplicates
+      const uniqueUserIds = [...new Set(userIds)];
+      
+      // Check if exact same group conversation already exists
       const existing = await db.query(
         `SELECT t.id
          FROM threads t
-         WHERE EXISTS (
-           SELECT 1 FROM thread_participants tp1 WHERE tp1.thread_id=t.id AND tp1.user_id=$1
-         ) AND EXISTS (
-           SELECT 1 FROM thread_participants tp2 WHERE tp2.thread_id=t.id AND tp2.user_id=$2
-         ) AND (
+         WHERE (
            SELECT COUNT(*) FROM thread_participants tp WHERE tp.thread_id=t.id
-         )=2
-         LIMIT 1`,
-        [me, otherId]
+         ) = $1
+         AND (
+           SELECT COUNT(*) FROM thread_participants tp 
+           WHERE tp.thread_id=t.id AND tp.user_id = ANY($2)
+         ) = $1`,
+        [uniqueUserIds.length, uniqueUserIds]
       );
+      
       if (existing.rowCount) return { threadId: existing.rows[0].id };
 
+      // Create new thread
       const t = await db.query("INSERT INTO threads DEFAULT VALUES RETURNING id");
       const threadId = t.rows[0].id;
-      await db.query("INSERT INTO thread_participants(thread_id,user_id) VALUES($1,$2),($1,$3)", [threadId, me, otherId]);
+      
+      // Add all participants
+      const values = uniqueUserIds.map(userId => `($1, ${userId})`).join(',');
+      await db.query(`INSERT INTO thread_participants(thread_id, user_id) VALUES ${values}`, [threadId]);
+      
       return { threadId };
     }),
 });
