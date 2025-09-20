@@ -4,9 +4,8 @@ import { db } from "../db";
 import { publish } from "../sse";
 
 function requireUserId(ctx: any): number {
-  const id = Number(ctx.req.cookies?.[process.env.SESSION_COOKIE_NAME || "uid"]);
-  if (!id) throw new Error("Unauthenticated");
-  return id;
+  if (!ctx.userId) throw new Error("Unauthenticated");
+  return ctx.userId;
 }
 
 export const messagesRouter = router({

@@ -34,7 +34,11 @@ async function main() {
     next();
   }, createExpressMiddleware({
     router: appRouter,
-    createContext: ({ req, res }) => ({ req, res, userId: undefined }),
+    createContext: ({ req, res }) => {
+      const cookieName = process.env.SESSION_COOKIE_NAME || "uid";
+      const userId = req.cookies?.[cookieName] ? Number(req.cookies[cookieName]) : undefined;
+      return { req, res, userId };
+    },
   }));
 
   app.listen(PORT, () => console.log(`server on :${PORT}`));

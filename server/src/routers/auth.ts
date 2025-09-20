@@ -29,11 +29,8 @@ export const authRouter = router({
     return { userId, username };
   }),
   me: publicProcedure.query(async ({ ctx }) => {
-    const cookieName = process.env.SESSION_COOKIE_NAME || "uid";
-    const v = ctx.req.cookies?.[cookieName];
-    if (!v) return null;
-    const id = Number(v);
-    const u = await db.query("SELECT id, username FROM users WHERE id=$1", [id]);
+    if (!ctx.userId) return null;
+    const u = await db.query("SELECT id, username FROM users WHERE id=$1", [ctx.userId]);
     return u.rowCount ? u.rows[0] : null;
   }),
 });

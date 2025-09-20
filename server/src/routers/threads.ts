@@ -3,9 +3,8 @@ import { router, publicProcedure } from "../trpc";
 import { db } from "../db";
 
 function requireUserId(ctx: any): number {
-  const id = Number(ctx.req.cookies?.[process.env.SESSION_COOKIE_NAME || "uid"]);
-  if (!id) throw new Error("Unauthenticated");
-  return id;
+  if (!ctx.userId) throw new Error("Unauthenticated");
+  return ctx.userId;
 }
 
 export const threadsRouter = router({
