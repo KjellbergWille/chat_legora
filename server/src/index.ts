@@ -8,13 +8,13 @@ import { ensureSchema } from "./db";
 import { subscribe } from "./sse";
 
 const PORT = Number(process.env.PORT || 4000);
-const ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
+const ORIGIN = process.env.CORS_ORIGIN || "http://10.0.1.120:5173";
 const COOKIE = process.env.SESSION_COOKIE_NAME || "uid";
 
 async function main() {
   await ensureSchema();
   const app = express();
-  app.use(cors({ origin: ORIGIN, credentials: true }));
+  app.use(cors({ origin: ["http://localhost:5173", "http://10.0.1.120:5173"], credentials: true }));
   app.use(cookieParser());
   app.use(express.json());
 
@@ -41,7 +41,7 @@ async function main() {
     },
   }));
 
-  app.listen(PORT, () => console.log(`server on :${PORT}`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`server on :${PORT}`));
 }
 
 main();
