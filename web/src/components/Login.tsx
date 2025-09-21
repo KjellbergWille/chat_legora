@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { trpc } from "../trpc";
 
-export default function Login({ onLoggedIn }: { onLoggedIn: (u: any) => void }) {
+export default function Login({ onLoggedIn }: { onLoggedIn: (u: { userId: number; username: string }) => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
