@@ -32,7 +32,6 @@ export default function ChatView({ threadId, me, onNewMessage }:{
 
   async function send(content:string){
     await trpc.messages.send.mutate({ threadId, content });
-    await load(); // simple refresh; SSE will also trigger outer reload
     onNewMessage();
   }
 

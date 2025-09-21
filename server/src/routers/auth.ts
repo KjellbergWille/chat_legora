@@ -7,14 +7,15 @@ const loginInput = z.object({ username: z.string().min(3), password: z.string().
 export const authRouter = router({
   login: publicProcedure.input(loginInput).mutation(async ({ input, ctx }) => {
     const { username, password } = input;
+    const normalizedUsername = username.toLowerCase();
 
-    const existing = await db.query("SELECT id, password FROM users WHERE username=$1", [username]);
+    const existing = await db.query("SELECT id, password FROM users WHERE username=$1", [normalizedUsername]);
     let userId: number;
 
     if (existing.rowCount === 0) {
       const ins = await db.query(
         "INSERT INTO users(username, password) VALUES($1,$2) RETURNING id",
-        [username, password]
+        [normalizedUsername, password]
       );
       userId = ins.rows[0].id;
     } else {
@@ -26,7 +27,7 @@ export const authRouter = router({
     const cookieName = process.env.SESSION_COOKIE_NAME || "uid";
     ctx.res.cookie(cookieName, String(userId), { httpOnly: false }); // simple for demo
 
-    return { userId, username };
+    return { userId, username: normalizedUsername };
   }),
   me: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.userId) return null;

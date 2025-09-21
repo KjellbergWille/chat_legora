@@ -32,7 +32,7 @@ export const threadsRouter = router({
       const me = requireUserId(ctx);
       
       // Parse comma-separated usernames and get user IDs
-      const usernames = input.usernames.split(',').map(u => u.trim()).filter(Boolean);
+      const usernames = input.usernames.split(',').map(u => u.trim().toLowerCase()).filter(Boolean);
       if (usernames.length === 0) throw new Error("At least one username required");
       
       const userIds = [me]; // Always include current user

@@ -29,10 +29,7 @@ async function main() {
     subscribe(uid, res);
   });
 
-  app.use("/trpc", (req, res, next) => {
-    console.log("tRPC Request:", req.method, req.url, req.body);
-    next();
-  }, createExpressMiddleware({
+  app.use("/trpc", createExpressMiddleware({
     router: appRouter,
     createContext: ({ req, res }) => {
       const cookieName = process.env.SESSION_COOKIE_NAME || "uid";
