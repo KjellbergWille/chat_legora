@@ -79,25 +79,26 @@ A real-time chat application with multi-device support built with React, TypeScr
 
 5. **Start the development servers**
    
-   **Option A: Start both servers at once (recommended)**
+   **Kill any existing processes first:**
    ```bash
-   pnpm dev
+   pkill -f "node.*server" || true
+   pkill -f "vite" || true
    ```
    
-   **Option B: Start servers separately**
+   **Start the web client (Terminal 1):**
    ```bash
-   # Terminal 1 - Start the server
-   cd server
-   pnpm dev
+   cd /Users/willekjellberg/Documents/GitHub/chat_legora/web && VITE_API_URL=http://192.168.10.130:4000 npm run dev -- --host 192.168.10.130
+   ```
    
-   # Terminal 2 - Start the web client
-   cd web
-   pnpm dev -- --host
+   **Start the backend server (Terminal 2):**
+   ```bash
+   cd /Users/willekjellberg/Documents/GitHub/chat_legora/server
+   npm run dev
    ```
 
 6. **Access the application**
-   - Local: http://localhost:5173
-   - Network: http://[your-ip]:5173 (for other devices)
+   - Frontend: http://192.168.10.130:5173
+   - Backend API: http://192.168.10.130:4000
 
 ## Multi-Device Setup
 
