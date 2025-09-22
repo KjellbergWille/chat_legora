@@ -68,11 +68,23 @@ A real-time chat application with multi-device support built with React, TypeScr
 
 4. **Configure environment variables**
    ```bash
-   # Create .env file in the root directory
-   echo "DATABASE_URL=postgresql://username:password@localhost:5432/chatlegora" > .env
+   # Copy example environment files
+   cp server/.env.example server/.env
+   cp web/.env.example web/.env
+   
+   # Edit the .env files with your actual values
+   # - Update DATABASE_URL in server/.env with your PostgreSQL connection string
+   # - Update VITE_API_URL in web/.env if your server runs on different port
    ```
 
 5. **Start the development servers**
+   
+   **Option A: Start both servers at once (recommended)**
+   ```bash
+   pnpm dev
+   ```
+   
+   **Option B: Start servers separately**
    ```bash
    # Terminal 1 - Start the server
    cd server
@@ -80,7 +92,7 @@ A real-time chat application with multi-device support built with React, TypeScr
    
    # Terminal 2 - Start the web client
    cd web
-   pnpm dev
+   pnpm dev -- --host
    ```
 
 6. **Access the application**
@@ -160,6 +172,13 @@ chat_legora/
 ## Development
 
 ### Available Scripts
+
+**Root (workspace):**
+- `pnpm dev` - Start both server and web client
+- `pnpm dev:server` - Start only the server
+- `pnpm dev:web` - Start only the web client with network access
+- `pnpm build` - Build all packages
+- `pnpm start` - Start production server
 
 **Server:**
 - `pnpm dev` - Start development server
