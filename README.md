@@ -96,9 +96,6 @@ A real-time chat application with multi-device support built with React, TypeScr
    npm run dev
    ```
 
-6. **Access the application**
-   - Frontend: http://192.168.10.130:5173
-   - Backend API: http://192.168.10.130:4000
 
 ## Multi-Device Setup
 
@@ -170,27 +167,7 @@ chat_legora/
 - **thread_participants** - Many-to-many relationship between users and threads
 - **messages** - Individual messages in threads
 
-## Development
 
-### Available Scripts
-
-**Root (workspace):**
-- `pnpm dev` - Start both server and web client
-- `pnpm dev:server` - Start only the server
-- `pnpm dev:web` - Start only the web client with network access
-- `pnpm build` - Build all packages
-- `pnpm start` - Start production server
-
-**Server:**
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm start` - Start production server
-
-**Web:**
-- `pnpm dev` - Start development server
-- `pnpm dev -- --host` - Start with network access
-- `pnpm build` - Build for production
-- `pnpm preview` - Preview production build
 
 ### Database Reset
 
@@ -204,20 +181,3 @@ psql -d postgres -c "DROP DATABASE IF EXISTS chatlegora; CREATE DATABASE chatleg
 cd server && pnpm dev
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- Built with modern web technologies for optimal performance
-- Real-time capabilities powered by Server-Sent Events
-- Type-safe development with TypeScript and tRPC
