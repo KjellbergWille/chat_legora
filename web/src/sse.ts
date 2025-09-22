@@ -1,5 +1,6 @@
 // Connect to Server-Sent Events for real-time updates
 export function connectEvents(onEvent: (e: any) => void) {
+  // @ts-ignore - Vite environment variables
   const url = `${import.meta.env?.VITE_API_URL || "http://localhost:4000"}/events`;
   const es = new EventSource(url, { withCredentials: true });
   
