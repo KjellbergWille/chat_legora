@@ -1,16 +1,10 @@
 # Dependencies
 node_modules/
 */node_modules/
-server/node_modules/
-web/node_modules/
 
 # Build outputs
 dist/
-*/dist/
-server/dist/
-web/dist/
 build/
-*/build/
 
 # Environment variables
 .env
@@ -18,8 +12,6 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
-server/.env
-web/.env
 
 # Logs
 npm-debug.log*
@@ -77,7 +69,6 @@ jspm_packages/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -107,10 +98,10 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Vite
-.vite/
-
 # Database
 *.db
 *.sqlite
 *.sqlite3
+
+# Reset script (temporary)
+reset-db.js

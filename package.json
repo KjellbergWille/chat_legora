@@ -4,7 +4,7 @@
   "workspaces": ["server", "web"],
   "scripts": {
     "dev:server": "pnpm --filter server dev",
-    "dev:web": "pnpm --filter web dev",
+    "dev:web": "pnpm --filter web dev -- --host",
     "dev": "concurrently -n server,web -c blue,green \"pnpm dev:server\" \"pnpm dev:web\"",
     "build": "pnpm -r build",
     "start": "pnpm --filter server start"
