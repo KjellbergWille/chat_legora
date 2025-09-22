@@ -15,7 +15,7 @@ export default function App() {
   }, []);
 
   // Show login form if not authenticated
-  if (!me) return <Login onLoggedIn={(u) => setMe(u)} />;
+  if (!me) return <Login onLoggedIn={(u) => setMe({ id: u.userId, username: u.username })} />;
   
   // Show messaging interface if authenticated
   return <Messaging me={me} />;
