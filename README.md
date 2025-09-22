@@ -4,13 +4,13 @@ A real-time chat application with multi-device support built with React, TypeScr
 
 ## Features
 
-- 🔐 User authentication and registration
-- 💬 Real-time messaging with Server-Sent Events (SSE)
-- 🧵 Thread-based conversations
-- 👥 Multi-user chat support
-- 📱 Multi-device access on the same network
-- ⚡ Fast and responsive UI with React and TypeScript
-- 🔄 Type-safe API with tRPC
+- User authentication and registration
+- Real-time messaging with Server-Sent Events (SSE)
+- Thread-based conversations
+- Multi-user chat support
+- Multi-device access on the same network
+- Fast and responsive UI with React and TypeScript
+- Type-safe API with tRPC
 
 ## Tech Stack
 
