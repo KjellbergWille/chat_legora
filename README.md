@@ -1,6 +1,6 @@
-# ChatLegora – Real-time Group Chat
+# ChatLegora – Multi-Device Real-time Group Chat
 
-A modern, type-safe group messaging application with real-time updates, built using tRPC, React, and PostgreSQL.
+A modern, type-safe group messaging application with real-time updates and **multi-device network access**. Built using tRPC, React, and PostgreSQL. Connect from any device on your local network - phones, tablets, laptops, and more!
 
 ## Architecture
 
@@ -9,11 +9,29 @@ A modern, type-safe group messaging application with real-time updates, built us
 - `web/` - React frontend with Vite build system
 
 **Key Features:**
-- **Type-Safe Communication**: End-to-end TypeScript with tRPC
-- **Real-time Updates**: Server-Sent Events for instant message delivery
-- **Group Conversations**: Create threads with multiple participants
-- **Auto User Management**: Users created on first login
-- **Modern UI**: Clean interface built with React + Tailwind CSS
+- **🌐 Multi-Device Access**: Connect from any device on your local network
+- **📱 Mobile Friendly**: Works on phones, tablets, laptops, and desktops
+- **⚡ Real-time Updates**: Server-Sent Events for instant message delivery
+- **👥 Group Conversations**: Create threads with multiple participants
+- **🔐 Auto User Management**: Users created on first login
+- **🎨 Modern UI**: Clean interface built with React + Tailwind CSS
+- **🔒 Type-Safe Communication**: End-to-end TypeScript with tRPC
+
+## 🚀 Quick Start Commands
+
+**Essential startup commands for multi-device access:**
+
+```bash
+# Terminal 1: Backend Server
+cd server && npm run dev
+
+# Terminal 2: Frontend Server (with network access)
+cd web && npm run dev -- --host
+```
+
+**Access from any device on your network:**
+- Find your IP: `ifconfig | grep inet` (macOS/Linux) or `ipconfig` (Windows)
+- Visit: `http://YOUR_IP_ADDRESS:5173`
 
 ## Quick Start
 
@@ -53,22 +71,57 @@ pnpm install
 cd server
 npm run dev
 
-# 3. Start the frontend (Terminal 2) 
+# 3. Start the frontend with network access (Terminal 2) 
 cd web
 npm run dev -- --host
 ```
 
-### Access the Application
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:4000
-- **Network Access**: http://10.0.1.120:5173 (for mobile/other devices)
+### 🌐 Multi-Device Access
+
+**Find Your Network IP:**
+```bash
+# macOS/Linux
+ifconfig | grep inet
+
+# Windows
+ipconfig
+```
+
+**Access URLs:**
+- **Local Development**: http://localhost:5173
+- **Network Access**: http://YOUR_IP_ADDRESS:5173
+- **Backend API**: http://YOUR_IP_ADDRESS:4000
+
+**Example:** If your IP is `192.168.1.100`, other devices would visit:
+```
+http://192.168.1.100:5173
+```
 
 ### First Time Setup
-1. Visit http://localhost:5173
-2. Enter any username and password to create your account
-3. Start chatting by creating a new conversation!
+1. **Start the servers** using the commands above
+2. **On your computer**: Visit http://localhost:5173
+3. **On other devices**: Visit http://YOUR_IP_ADDRESS:5173
+4. Enter any username and password to create your account
+5. Start chatting by creating a new conversation!
+
+### 📱 Multi-Device Usage
+- **Same WiFi Required**: All devices must be on the same local network
+- **Real-time Sync**: Messages appear instantly across all connected devices
+- **Cross-Platform**: Works on iOS, Android, Windows, macOS, Linux
+- **No Installation**: Just open a web browser and visit the URL
 
 ### Troubleshooting
+
+**🌐 Multi-Device Connection Issues:**
+```bash
+# Check if servers are running on all interfaces
+lsof -i :4000 -i :5173
+
+# Should show *:4000 and *:5173 (not localhost)
+# If not, restart servers with correct commands:
+cd server && npm run dev
+cd web && npm run dev -- --host
+```
 
 **Database Connection Issues:**
 ```bash
@@ -86,6 +139,11 @@ docker exec pg-chatlegora psql -U postgres -d chatlegora -c "DROP SCHEMA public 
 - Backend runs on port 4000
 - Frontend runs on port 5173
 - Change ports in respective `.env` files if needed
+
+**Network Access Issues:**
+- Ensure all devices are on the same WiFi network
+- Check firewall settings (may need to allow ports 4000 and 5173)
+- Verify IP address hasn't changed (run `ifconfig` again)
 
 ## Usage
 
@@ -160,7 +218,11 @@ SESSION_COOKIE_NAME=uid
 
 **Web (web/.env):**
 ```env
+# For local development
 VITE_API_URL=http://localhost:4000
+
+# For multi-device access (replace with your IP)
+VITE_API_URL=http://10.0.1.120:4000
 ```
 
 ## API Endpoints
